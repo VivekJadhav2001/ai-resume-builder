@@ -2,52 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { FORM_SECTIONS } from "../constant";
 
 
-// const initialState = {
-//     intro: [
-//         { displayQuestion: "First Name", id: "firstName", type: "text", answer: "" },
-//         { displayQuestion: "Last Name", id: "secondName", type: "text", answer: "" },
-//         { displayQuestion: "Git Link", id: "gitLink", type: "url", answer: "" },
-//     ],
-
-//     objective: [{ displayQuestion: "Objecive", id: "objective", type: "text", answer: "" }],
-
-//     skills: [
-//         { displayQuestion: "Technical Skills", id: "techSkills", type: "text", answer: "" },
-//         { displayQuestion: "Soft Skills", id: "softSkills", type: "text", answer: "" },],
-
-//     projects: {
-
-//         project1: [{ displayQuestion: "Project Name", id: "projectName1", type: "text", answer: "" },
-//         { displayQuestion: "Project Details", id: "projectDetails", type: "text", answer: "" },
-//         { displayQuestion: "Skills", id: "projectSkills", type: "text", answer: "" }],
-
-
-//         project2: [{ displayQuestion: "Project Name", id: "projectName2", type: "text", answer: "" },
-//         { displayQuestion: "Project Details", id: "projectDetails2", type: "text", answer: "" },
-//         { displayQuestion: "Skills", id: "projectSkills2", type: "text", answer: "" }],
-
-
-//         project3: [{ displayQuestion: "Project Name", id: "projectName3", type: "text", answer: "" },
-//         { displayQuestion: "Project Details", id: "projectDetails3", type: "text", answer: "" },
-//         { displayQuestion: "Skills", id: "projectSkills3", type: "text", answer: "" }]
-//     }
-
-//     ,
-//     education: [
-//         { displayQuestion: "Degree", id: "degree", type: "text", answer: "" },
-//     ],
-//     renderingQuestions: [
-//         { displayQuestion: "First Name", id: "firstName", type: "text", answer: "" },
-//         { displayQuestion: "Last Name", id: "secondName", type: "text", answer: "" },
-//         { displayQuestion: "Git Link", id: "gitLink", type: "url", answer: "" },
-
-
-//     ],
-
-//     currentForm: FORM_SECTIONS.INTRO
-// }
-
-
 const formDataSlice = createSlice({
     name: "formData",
     initialState: {},
@@ -131,7 +85,7 @@ const formDataSlice = createSlice({
         },
 
         // Clear store data
-        clearStoreData(state){
+        clearStoreData(){
             return {}
         }
 

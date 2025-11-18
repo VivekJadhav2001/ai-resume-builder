@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMoon } from "react-icons/io5";
 import { IoSunnyOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { FaLock } from "react-icons/fa";
-import secondTemplate from '../utils/templatesQuestions/template_2'
 import { templates, TEMPLATES_ID } from "../constant";
 import { useDispatch } from "react-redux";
-import { updateStoreData } from "../features/formDataSlice";
+import { clearStoreData, updateStoreData } from "../features/formDataSlice";
 import { selectTemplateQuestions } from "../utils/commonFunctions/onTemplateSelect";
 
 
@@ -29,6 +28,12 @@ function Home() {
 
   }
 
+
+  // Remove data from local storage and store
+  useEffect(()=>{
+    localStorage.removeItem("userData")
+    dispatch(clearStoreData())
+  },[])
 
 
 

@@ -19,12 +19,6 @@ function Form() {
             {/* Render Forms */}
             <div className='w-full max-w-2xl'>
                 <FormContainer />
-                
-                {/* {formRenderStatus.INTRO && <Intro />}
-                {formRenderStatus.OBJECTIVE && <Objective />}
-                {formRenderStatus.SKILLS && <Skills />}
-                {formRenderStatus.PROJECTS && <Projects />}
-                {formRenderStatus.EDUCATION && <Education />} */}
             </div>
 
         </div>
