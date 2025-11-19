@@ -6,7 +6,8 @@ export const FORM_SECTIONS = {
     PROJECT: "project",
     EDUCATION: "education",
     EXPERIENCE: "experience",
-    CERTIFICATIONS: "certifications"
+    CERTIFICATIONS: "certifications",
+    INTERNSHIP : "internship"
 }
 
 // Projects state structur
@@ -299,6 +300,9 @@ const intership = [
         aiEnabled: true,
     }
 ]
+
+
+export const SKIPPABLE_FORMS = {CERTIFICATIONS : FORM_SECTIONS.CERTIFICATIONS, INTERNSHIP : FORM_SECTIONS.INTERNSHIP}
 
 
 export const initialState = {
