@@ -340,9 +340,7 @@ export const TEMPLATES_ID = {
 export const templates = [
     {
         id: TEMPLATES_ID.TEMPLATE_1,
-        src: "https://writelatex.s3.amazonaws.com/published_ver/45943.jpeg?X-Amz-Expires=14400&X-Amz-Date=20251113T160127Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWJBOALPNFPV7PVH5/20251113/us-east-1/s3/aws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=a2a90f36109d968d674821a8625ff960098f15af88f516c1bf2d127c4f43ed94",
+        src: "https://njvawavweamzvvakmsgn.supabase.co/storage/v1/object/public/accioresume/resume.png",
     },
-    { id: TEMPLATES_ID.TEMPLATE_2, src: "https://writelatex.s3.amazonaws.com/published_ver/45792.jpeg?X-Amz-Expires=14400&X-Amz-Date=20251113T161037Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWJBOALPNFPV7PVH5/20251113/us-east-1/s3/aws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=139bab17cbe334ec7dc9d045d98091290418b17d2b37abf24c22715188d8ee9c"},
-    // { id: 3, src: "https://writelatex.s3.amazonaws.com/published_ver/23504.jpeg?X-Amz-Expires=14400&X-Amz-Date=20251113T161058Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWJBOALPNFPV7PVH5/20251113/us-east-1/s3/aws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=ff7d01639125ca42bcc47579509913529e8fccf9e29f4e896c901954b8674738", locked: false },
-    // { id: 4, src: "https://writelatex.s3.amazonaws.com/published_ver/38460.jpeg?X-Amz-Expires=14400&X-Amz-Date=20251113T161110Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWJBOALPNFPV7PVH5/20251113/us-east-1/s3/aws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=5af74041794b22823cfdcebd235f1ba25dadc7fab7e74a315620c5153f4fc43d", locked: true },
+    { id: TEMPLATES_ID.TEMPLATE_2, src: "https://njvawavweamzvvakmsgn.supabase.co/storage/v1/object/public/accioresume/templateShumit.png"},
 ];

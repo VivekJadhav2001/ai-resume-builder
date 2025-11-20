@@ -1,32 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { IoMoon } from "react-icons/io5";
-import { IoSunnyOutline } from "react-icons/io5";
+import  { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaLock } from "react-icons/fa";
+import { FaLock, FaTimes } from "react-icons/fa";
 import { templates, TEMPLATES_ID } from "../constant";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearStoreData, updateStoreData } from "../features/formDataSlice";
-import { selectTemplateQuestions } from "../utils/commonFunctions/onTemplateSelect";
 
 
 function Home() {
 
-  const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate()
-
-
   const dispatch = useDispatch()
+  const darkMode = useSelector((state)=>state.theme)
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
 
-  // Update store with template questions and navigate to form
-  function onTemplateClick(template) {
+  // Update questions based on selected form
+  function handleProceed() {
+    if (!selectedTemplate) return;
 
-    const questions = selectTemplateQuestions(template)
-    dispatch(updateStoreData(questions))
-
-    navigate("/userDetails")
-
-
+    // Update intial state from users store
+    dispatch(updateStoreData(selectedTemplate));
+    navigate("/userDetails");
   }
+
 
 
   // Remove data from local storage and store
@@ -38,57 +33,135 @@ function Home() {
 
 
   return (
-    <div className={`${darkMode ? "bg-[#0b0b1a] text-white" : "bg-linear-to-br from-[#f9fafb] to-[#eef1f5] text-gray-900"} pb-8 min-h-screen transition-all duration-500`}>
+    <div className={`min-h-screen w-full absolute top-0 -z-10  flex flex-col transition-all duration-500 overflow-hidden
+      ${darkMode ? "bg-linear-to-br from-gray-900 via-gray-800 to-gray-900" 
+                 : "bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50"}`}>
 
-      {/* Navbar */}
-      <nav className="flex justify-between items-center px-8 py-5 backdrop-blur-md bg-white/10 border-b border-gray-200 dark:border-gray-700">
-        <h1 className="text-2xl font-bold tracking-tight bg-linear-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
-          ResumeCraft
-        </h1>
-        <div className="flex items-center gap-4">
-          <button className="text-sm font-medium border px-4 py-1.5 rounded-xl hover:bg-indigo-500 hover:text-white transition">
-            Login
-          </button>
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-2 rounded-full bg-gray-100 text-white dark:bg-gray-800 hover:scale-110 transition"
-          >
-            {darkMode ? <IoSunnyOutline size={18} /> : <IoMoon size={18} />}
-          </button>
-        </div>
-      </nav>
+      {/* Small Animated Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className={`absolute top-12 left-6 w-32 h-32 rounded-full blur-xl opacity-20 animate-pulse 
+          ${darkMode ? "bg-purple-600" : "bg-indigo-400"}`}></div>
+        <div className={`absolute bottom-12 right-6 w-48 h-48 rounded-full blur-xl opacity-20 animate-pulse 
+          ${darkMode ? "bg-indigo-600" : "bg-purple-400"}`} style={{ animationDelay: '1s' }}></div>
+      </div>
 
       {/* Hero Section */}
-      <section className="flex flex-col items-center text-center mt-16 px-4">
-        <h2 className="text-4xl sm:text-5xl font-extrabold mb-4">
-          Craft Your <span className="text-indigo-500">Perfect Resume</span> in Minutes
-        </h2>
-        <p className="max-w-xl text-gray-600 dark:text-gray-300 mb-10">
-          Choose a stunning template, fill your details, and land your dream job effortlessly.
-        </p>
+      <section className="relative flex-1 flex items-center justify-center px-4 md:px-8 py-10">
+        <div className="max-w-6xl w-full grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
 
-        {/* Templates */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
-          {templates.map((t) => (
-            <div
-              key={t.id}
-              className={`relative rounded-2xl overflow-hidden shadow-md hover:scale-105 transition duration-300 cursor-pointer ${t.locked ? "opacity-60" : ""
-                }`}
-              onClick={() => onTemplateClick(t)}
-            >
-              <img src={t.src} alt={`Template ${t.id}`} className="w-full h-auto" />
-              {t.locked && (
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                  <FaLock size={30} className="text-white" />
+          {/* Left Content */}
+          <div className="space-y-4 flex flex-col justify-center z-10 md:order-1 mt-16">
+            <h1 className={`text-3xl md:text-4xl lg:text-5xl font-bold leading-tight 
+              ${darkMode ? "text-white" : "text-gray-900"}`}>
+              Select Your <span className="bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Perfect Template</span>
+            </h1>
+            <p className={`text-sm md:text-base lg:text-lg ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+              Choose the perfect template for your career stage and land your dream job effortlessly.
+            </p>
+
+            {/* Templates Grid */}
+            <div className="grid grid-cols-2 gap-2 md:gap-3 pt-2">
+              {templates.map((t) => (
+                <div key={t.id} onClick={() => setSelectedTemplate(t)} 
+                  className={`group relative rounded-lg overflow-hidden shadow transition-all duration-300 transform
+                    ${darkMode ? "bg-gray-800 hover:bg-gray-750 border-gray-700" : "bg-white hover:bg-gray-50 border-gray-200"} 
+                    ${t.locked ? "opacity-60 cursor-not-allowed hover:translate-y-0" : "cursor-pointer hover:-translate-y-0.5 hover:border-indigo-500"}`}>
+                  
+                  <div className="p-2 space-y-1">
+                    <div className="relative w-full aspect-[3/4] rounded-md overflow-hidden bg-linear-to-br from-gray-100 to-gray-200">
+                      <img src={t.src} alt={`Template ${t.id}`} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                      
+                      {t.locked && (
+                        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center">
+                          <FaLock size={20} className="text-white" />
+                        </div>
+                      )}
+
+                      {!t.locked && (
+                        <div className="absolute inset-0 bg-linear-to-t from-indigo-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      )}
+                    </div>
+
+                    <div className="text-center">
+                      <h3 className={`text-xs md:text-sm font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>
+                        Template {t.id}
+                      </h3>
+                      {!t.locked && <p className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Click to customize</p>}
+                    </div>
+                  </div>
                 </div>
-              )}
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Right Preview */}
+          <div className="relative hidden md:flex items-center justify-center h-full min-h-[300px] md:order-2 mt-20">
+            <div className={`absolute inset-0 rounded-xl backdrop-blur-lg shadow border 
+              ${darkMode ? "bg-linear-to-br from-gray-800/20 via-purple-900/20 to-indigo-900/20 border-gray-700/40" 
+                         : "bg-linear-to-br from-white/20 via-purple-100/20 to-indigo-100/20 border-white/40"}`}></div>
+
+            <div className="relative z-10 w-full max-w-xs lg:max-w-sm">
+              <div className={`rounded-xl overflow-hidden shadow border transform rotate-0 hover:rotate-0 transition-transform duration-500
+                ${darkMode ? "border-gray-700" : "border-white"}`}>
+                <img src="https://njvawavweamzvvakmsgn.supabase.co/storage/v1/object/public/accioresume/hello.jpg" alt="Resume Preview" className="w-full h-auto object-cover"
+                  onError={(e) => { e.target.src = templates[0].src; }} />
+              </div>
+              
+              <div className="absolute -top-3 -left-3 w-12 h-12 bg-linear-to-br from-indigo-500 to-purple-600 rounded-full blur-lg opacity-40 animate-pulse"></div>
+              <div className="absolute -bottom-3 -right-3 w-20 h-20 bg-linear-to-br from-pink-500 to-orange-500 rounded-full blur-lg opacity-40 animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Modal */}
+    {selectedTemplate && (
+  <div
+    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
+  >
+    <div
+      className={`relative w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden transform transition-all animate-scaleIn
+        ${darkMode ? "bg-gray-800" : "bg-white"}`}
+      onClick={(e) => e.stopPropagation()} // prevent clicks inside modal from bubbling
+    >
+      {/* Close Button */}
+      <button
+        onClick={()=>setSelectedTemplate(null)} // Only X closes modal
+        className={`absolute top-4 right-4 z-10 p-2 rounded-full transition-all duration-200
+          ${darkMode ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-100 hover:bg-gray-200 text-gray-800"}`}
+      >
+        <FaTimes size={20} />
+      </button>
+
+      {/* Modal Content */}
+      <div className="p-6 md:p-8 flex flex-col items-center space-y-6">
+        {/* Template Preview */}
+        <div className="w-full max-w-sm md:max-w-md">
+          <div className={`rounded-lg overflow-hidden shadow-2xl border-2
+            ${darkMode ? "border-indigo-500" : "border-indigo-400"}`}>
+            <img
+              src={selectedTemplate.src}
+              alt={`Template ${selectedTemplate.id}`}
+              className="object-cover rounded-lg"
+            />
+          </div>
         </div>
 
-        {/* CTA Button */}
+        {/* Action Button */}
+        <button
+          onClick={handleProceed}
+          className="w-full max-w-sm md:max-w-md py-4 px-8 rounded-lg font-semibold text-lg text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
+        >
+          Continue to Form
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
-      </section>
+
+    
     </div>
   )
 }
