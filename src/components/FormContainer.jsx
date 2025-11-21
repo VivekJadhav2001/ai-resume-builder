@@ -5,12 +5,12 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateData, updateFormRender, updateStoreData } from '../features/formDataSlice'
-import { FORM_SECTIONS, LABEL_FORMATTERS, SECTION_TITLES } from '../constant'
+import { FORM_SECTIONS, LABEL_FORMATTERS, SECTION_TITLES, isRequiredFieldsFilled } from '../constant'
 import { useNavigate } from 'react-router-dom'
 import RenderingBasicForm from './RenderBasicForm'
 import NestedForm from './NestedForm'
 
-function FormContainer({setSubmittedFormCount}) {
+function FormContainer({setSubmittedFormCount,submittedFormCount}) {
 
     const currentForm = useSelector((state) => state.formData.currentForm)
     const renderingArray = useSelector((state) => state.formData.renderingQuestions)
@@ -27,6 +27,18 @@ function FormContainer({setSubmittedFormCount}) {
     function getData(e) {
         e.preventDefault()
 
+
+        // Validate all fields filled
+        if(!isRequiredFieldsFilled(renderingArray)){
+
+
+            // Vivek & Shubham handle much better
+            alert("Fill all required fields")
+
+            return
+
+        }
+
         // Check if current form is last form
         if (renderingArray[renderingArray.length - 1]?.isLastFrom) {
             navigate('/preview')
@@ -35,6 +47,9 @@ function FormContainer({setSubmittedFormCount}) {
             dispatch(updateFormRender())
 
         }
+
+        // Update count of form submitted count in local storage 
+        localStorage.setItem("submittedFormCount",submittedFormCount)
 
         // Increase form submit count
         setSubmittedFormCount((prev)=>prev+1)

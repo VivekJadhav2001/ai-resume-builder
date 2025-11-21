@@ -9,7 +9,7 @@ const TextEditor = ({ item, section, inputChange, subsectionKey }) => {
 
   const validateEditorContent = (content) => {
     setError("");
-    
+
     const text = content.replace(/<[^>]*>/g, "").trim();
 
     if (!item.canSkip && !text) {
@@ -31,9 +31,12 @@ const TextEditor = ({ item, section, inputChange, subsectionKey }) => {
   };
 
   const handleEditorChange = (content) => {
+    // console.log(content,"CONTANT FROM TEXT EDITOR")
     validateEditorContent(content);
-    inputChange(content);
+    inputChange(content, item, subsectionKey);
   };
+
+
 
   const handleAIGenerate = async () => {
     setIsAILoading(true);

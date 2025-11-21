@@ -12,14 +12,22 @@ function Form() {
     // If page refreshes take stored data from local storage and update the store
     useEffect(() => {
 
-        console.log("calling inside if condtions")
-        if (localStorage.getItem("userData")) {
+        const locallyStoredUserData = localStorage.getItem("userData")
+        if (locallyStoredUserData) {
             // Step 1 : Get data and parse it
-            const localStorageData = JSON.parse(localStorage.getItem("userData"))
+            const localStorageData = JSON.parse(locallyStoredUserData)
 
 
             // Step 2 : Update data in
             dispatch(updateStoreData(localStorageData))
+        }
+
+
+        // Get submitted form count on refres
+        const submittedFormCountStoredInLocal = Number(localStorage.getItem("submittedFormCount"))
+
+        if(submittedFormCountStoredInLocal){
+            setSubmittedFormCount(submittedFormCountStoredInLocal)
         }
     }, [])
 
@@ -35,7 +43,7 @@ function Form() {
 
                     {/* Render Forms */}
                     <div className='w-full max-w-2xl'>
-                        <FormContainer setSubmittedFormCount={setSubmittedFormCount} />
+                        <FormContainer setSubmittedFormCount={setSubmittedFormCount} submittedFormCount={submittedFormCount} />
                     </div>
 
         </div>
