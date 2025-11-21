@@ -56,23 +56,6 @@ function FormContainer({setSubmittedFormCount}) {
 
     }
 
-
-    // If page refreshes take stored data from local storage and update the store
-    useEffect(() => {
-
-        if (localStorage.getItem("userData")) {
-            // Step 1 : Get data and parse it
-            const localStorageData = JSON.parse(localStorage.getItem("userData"))
-
-
-            // Step 2 : Update data in
-            dispatch(updateStoreData(localStorageData))
-        }
-    }, [])
-
-
-
-
     return (
         <div className="py-8 px-4 overflow-y-auto">
             <div className="max-w-3xl mx-auto">
@@ -90,7 +73,7 @@ function FormContainer({setSubmittedFormCount}) {
                         />
                     ) : (
                         <RenderingBasicForm
-                            questions={Array.isArray(renderingArray) ? renderingArray : Object.values(renderingArray)}
+                            questions={Array.isArray(renderingArray) ? renderingArray : Object.values(renderingArray || {})}
                             inputChange={inputChange}
                             section={currentForm}
                             subsectionKey={null}
