@@ -2,10 +2,11 @@ import React from "react";
 import { BsPhoneFill } from "react-icons/bs";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
+import { shortenUrl } from "../constant";
 
 function PreviewResume({
   userData,
-  hasSection,
+  isAllRequiredFilled,
   sectionRenderMap,
   sectionsOrder,
 }) {
@@ -30,8 +31,23 @@ function PreviewResume({
       format: (v) => `+91 ${v}`,
     },
   };
+
   const intro = userData?.intro || [];
-  const fullName = `${intro[0]?.answer || ""} ${intro[1]?.answer || ""}`;
+
+  let userName = "" 
+  const iconsArr = []
+  intro.map((item)=>{
+    if (item.displayQuestion.toLowerCase().includes("name")) userName += item.answer+" "
+    else{
+      iconsArr.push(item)
+    }
+  })
+  const fullName = userName
+  .trim().split(" ")
+  .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+  .join(" ");
+
+
 
   console.log(userData,'resume data ')
 
@@ -62,7 +78,7 @@ function PreviewResume({
       {/* INTRO */}
       <header>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <h1 style={{ fontSize: "30px", marginBottom: "4px" }}>{fullName}</h1>
+          <h1 style={{ fontSize: "30px", marginBottom: "10px" }}>{fullName}</h1>
         </div>
 
         {/* CONTACT ROW */}
@@ -74,7 +90,7 @@ function PreviewResume({
             flexWrap: "wrap",
           }}
         >
-          {intro.slice(2).map((item) => {
+          {iconsArr.map((item) => {
             const conf = CONTACT_MAP[item.displayQuestion] || {};
 
             return (
@@ -86,8 +102,9 @@ function PreviewResume({
                   gap: "6px",
                 }}
               >
-                {/* icon if exists */}
+
                 {conf.icon || null}
+                {/* icon if exists */}
 
                 {/* clickable link for URLs */}
                 {item.type === "url" ? (
@@ -100,7 +117,7 @@ function PreviewResume({
                       textDecoration: "underline",
                     }}
                   >
-                    {item.answer}
+                    {shortenUrl(item.answer)}
                   </a>
                 ) : (
                   <span>
@@ -116,7 +133,7 @@ function PreviewResume({
       </header>
 
       {/* OBJECTIVE */}
-      {hasSection(userData.objective) && (
+      {isAllRequiredFilled(userData.objective) && (
         <section style={{ marginTop: "6px" }}>
           <h2
             style={{
