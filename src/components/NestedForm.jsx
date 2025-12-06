@@ -11,22 +11,32 @@ const NestedForm = ({ nestedData, section, labelFormatter, inputChange }) => {
 
 
   // ---------- SKIP LOGIC -------------
-  const handleSkipTab = () => {
-    setSkippedTabs((prev) => [...prev, activeTab]);
+      const handleSkipTab = () => {
+          // Remember that the current tab was skipped   prev = previous skipped tabs   activeTab = the tab we're currently on
+      
+        setSkippedTabs((prev) => [...prev, activeTab]);
 
-    const index = tabs.indexOf(activeTab);
-    if (index < tabs.length - 1) {
-      setActiveTab(tabs[index + 1]);
-    }
-  };
+      // Find the position of the current tab in all tabs
+      const currentIndex = tabs.indexOf(activeTab);
+      
+          //If there is a next tab, make it active
+      if (currentIndex < tabs.length - 1) {
+        setActiveTab(tabs[currentIndex + 1]);
+      }
+      };
 
-  const hasSkippableFields = () => {
-    const fields = nestedData[activeTab];
+        function hasSkippableFields() {
+        // Step 1: Get all the questions in the current tab
+        const questions = nestedData[activeTab];
 
-    if (!fields || !Array.isArray(fields)) return false;
+        // Step 2: If there are no questions, return false
+        if (!questions || !Array.isArray(questions)) {
+          return false;
+        }
 
-    return fields.some((f) => f.canSkip === true);
-  };
+        // Step 3: Check if any question has "canSkip" = true
+        return questions.some(question => question.canSkip === true);
+      }
 
 
 
@@ -43,7 +53,7 @@ const NestedForm = ({ nestedData, section, labelFormatter, inputChange }) => {
       <div className="flex flex-wrap gap-2 border-b border-gray-200 pb-4">
         {tabs.map((key) => (
           <button
-            key={key}
+            key={key} 
             onClick={() => setActiveTab(key)}
             type="button"
             className={`px-4 py-2 rounded-lg font-medium transition-all ${activeTab === key
@@ -61,9 +71,9 @@ const NestedForm = ({ nestedData, section, labelFormatter, inputChange }) => {
         {tabs.map((key) => (
           <div key={key} className={activeTab === key ? "block" : "hidden"}>
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">
+              {/* <h3 className="text-lg font-semibold text-gray-800">
                 {labelFormatter ? labelFormatter(key) : key}
-              </h3>
+              </h3> */}
 
               {/* Skip Button */}
               {(() => {
@@ -72,15 +82,6 @@ const NestedForm = ({ nestedData, section, labelFormatter, inputChange }) => {
 
                 return (
                   <>
-                    {canSkip && !isSkipped && (
-                      <button
-                        onClick={handleSkipTab}
-                        type="button"
-                        className="text-sm text-gray-600 hover:text-gray-800 underline"
-                      >
-                        Skip this section
-                      </button>
-                    )}
 
                     {isSkipped && (
                       <span className="text-xs text-orange-600 bg-orange-100 px-3 py-1 rounded-full">
